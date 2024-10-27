@@ -7,13 +7,14 @@ import java.util.Random;
 
 public class Player {
     private int mana;
-    private ArrayList<Card> currentDeck;
+    private ArrayList<Card> currentDeck, hand;
     private Random random;
     private int no;
 
     public Player() {
         this.mana = 0;
-        this.currentDeck = new ArrayList();
+        this.currentDeck = new ArrayList<Card>();
+        this.hand = new ArrayList<Card>();
     }
 
     public void setNo(int no) {
@@ -72,5 +73,8 @@ public class Player {
             System.out.println("Not enough mana");
             return false;
         }
+    }
+    public void drawCard() {
+        hand.add(currentDeck.remove(0));
     }
 }

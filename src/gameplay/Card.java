@@ -9,16 +9,16 @@ public class Card {
     private String description;
     private String name;
     private ArrayList<String> colors;
-    boolean isFrozen;
-    private boolean front;
 
-    public Card(int mana, int health, int attackDamage, String description, String name, ArrayList<String> colors, boolean frozen) {
+    private boolean isFrozen;
+    private boolean front, hasAttacked;
+    public Card(int mana, int health, int attackDamage, String description, String name, ArrayList<String> colors) {
         this.mana = mana;
         this.health = health;
         this.description = description;
         this.name = name;
         this.colors = colors;
-        this.isFrozen = frozen;
+        this.hasAttacked = false;
     }
 
     public boolean isFront() {
@@ -88,4 +88,15 @@ public class Card {
     public void setFrozen(boolean frozen) {
         this.isFrozen = frozen;
     }
+
+    public boolean mustBeAttacked() {
+        return false;
+    }
+    public void attack(Card c) {
+        c.reduceHealth(this.getAttackDamage());
+    }
+    public void resetAttack() {
+        hasAttacked = false;
+    }
+
 }
