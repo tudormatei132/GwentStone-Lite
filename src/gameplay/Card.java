@@ -1,6 +1,10 @@
 package gameplay;
 
 import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fileio.Input;
 
 public class Card {
     private int mana;
@@ -19,6 +23,7 @@ public class Card {
         this.name = name;
         this.colors = colors;
         this.hasAttacked = false;
+        this.attackDamage = attackDamage;
     }
 
     public boolean isFront() {
@@ -89,14 +94,29 @@ public class Card {
         this.isFrozen = frozen;
     }
 
-    public boolean mustBeAttacked() {
-        return false;
+    public ObjectNode print(ObjectMapper mapper) {
+        ObjectNode on = mapper.createObjectNode();
+        on.put("mana", mana);
+        on.put("attackDamage", attackDamage);
+        on.put("health", health);
+        on.put("description", description);
+        ArrayNode temp = mapper.createArrayNode();
+        for (String s : colors) {
+            temp.add(s);
+        }
+        on.put("colors", temp);
+        on.put("name", name);
+        return on;
     }
+
+
     public void attack(Card c) {
         c.reduceHealth(this.getAttackDamage());
     }
     public void resetAttack() {
         hasAttacked = false;
     }
+    public void JSONtoCard(Input input) {
 
+    }
 }

@@ -1,7 +1,7 @@
 package main;
 
 import checker.Checker;
-
+import gameplay.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -50,6 +50,7 @@ public final class Main {
             boolean isCreated = out.createNewFile();
             if (isCreated) {
                 action(file.getName(), filepath);
+
             }
         }
 
@@ -68,7 +69,9 @@ public final class Main {
                 Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
-
+        Game game = new Game();
+        game.startGame(inputData, output);
+        System.out.println(output.toString());
         /*
          * TODO Implement your function here
          *

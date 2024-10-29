@@ -8,5 +8,8 @@ public class Minion extends Card {
         super(mana, health, attackDamage, description, name, colors);
     }
 
+    public boolean mustBeAttacked() {
+        return false;
+    }
 
 }
