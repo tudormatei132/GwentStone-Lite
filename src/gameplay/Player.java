@@ -11,14 +11,14 @@ import java.util.Random;
 public class Player {
     private int mana;
     private Deck currentDeck;
-    private ArrayList<Card> hand;
+    private ArrayList<Minion> hand;
     private Hero hero;
     private int no;
 
     public Player(int no) {
-        this.mana = 0;
+        this.mana = 1;
         this.currentDeck = new Deck();
-        this.hand = new ArrayList<Card>();
+        this.hand = new ArrayList<>();
         this.no = no;
     }
 
@@ -55,7 +55,7 @@ public class Player {
     public void setCurrentDeck(Deck currentDeck, Random random) {
 
 
-        for (Card c : currentDeck.getDeck()) {
+        for (Minion c : currentDeck.getDeck()) {
             this.currentDeck.getDeck().add(c);
         }
 
@@ -70,8 +70,7 @@ public class Player {
     }
 
     public boolean hasEnoughMana(Card card) {
-        if (this.mana > card.getMana()) {
-            this.mana -= card.getMana();
+        if (this.mana >= card.getMana()) {
             return true;
         } else {
             System.out.println("Not enough mana");
@@ -79,11 +78,11 @@ public class Player {
         }
     }
     public void drawCard() {
-        if (!currentDeck.getDeck().isEmpty()) {}
+        if (currentDeck.getDeck().size() > 0) {}
             hand.add(currentDeck.getDeck().remove(0));
     }
 
-    public ArrayList<Card> getHand() {
+    public ArrayList<Minion> getHand() {
         return hand;
     }
 
@@ -97,17 +96,23 @@ public class Player {
         this.hero = hero;
     }
 
-    public void setHand(ArrayList<Card> hand) {
+    public void setHand(ArrayList<Minion> hand) {
         this.hand = hand;
     }
 
 
-    public ObjectNode deckToOutput(ObjectMapper mapper) {
-        ObjectNode on = mapper.createObjectNode();
-        ArrayNode an = mapper.createArrayNode();
-        an = currentDeck.printDeck(mapper);
-        on.put("output",  an);
-        return on;
 
+
+    public ArrayNode printHand(ObjectMapper mapper) {
+        ArrayNode handNode = mapper.createArrayNode();
+        for (Minion c : hand) {
+            ObjectNode node = c.print(mapper);
+            handNode.add(node);
+        }
+        return handNode;
+    }
+
+    public Minion getCard(int idx) {
+        return hand.get(idx);
     }
 }

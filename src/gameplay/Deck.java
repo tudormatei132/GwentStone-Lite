@@ -7,18 +7,18 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 
 public class Deck {
-    private ArrayList<Card> deck;
+    private ArrayList<Minion> deck;
     private int cards;
     public Deck() {
         deck = new ArrayList<>();
         cards = 0;
     }
-    public Deck(ArrayList<Card> deck, int cards) {
+    public Deck(ArrayList<Minion> deck, int cards) {
         this.deck = deck;
         this.cards = cards;
     }
 
-    public ArrayList<Card> getDeck() {
+    public ArrayList<Minion> getDeck() {
         return deck;
     }
 
@@ -26,7 +26,7 @@ public class Deck {
         return cards;
     }
 
-    public void setDeck(ArrayList<Card> deck) {
+    public void setDeck(ArrayList<Minion> deck) {
         this.deck = deck;
     }
 

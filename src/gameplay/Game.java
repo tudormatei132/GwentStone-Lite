@@ -15,14 +15,17 @@ public class Game {
     public Game() {
         players = new Player[2];
     }
-    public Game(Player p1, Player p2, Board b) {
-        players = new Player[] {p1, p2};
+    public Game(Board b) {
+        players = new Player[2];
         board = b;
     }
 
-    public Card inputToCard(CardInput c) {
-        return new Card(c.getMana(), c.getHealth(), c.getAttackDamage(),
-                c.getDescription(), c.getName(), c.getColors());
+    public Minion inputToCard(CardInput c) {
+        if (c.getName().equals("Goliath") || c.getName().equals("Warden"))
+            return new Minion(c.getMana(), c.getHealth(), c.getAttackDamage(),
+                              c.getDescription(), c.getName(), c.getColors(), true);
+        return new Minion(c.getMana(), c.getHealth(), c.getAttackDamage(),
+                c.getDescription(), c.getName(), c.getColors(), false);
 
     }
 
@@ -32,9 +35,14 @@ public class Game {
                             ArrayList<ArrayList<CardInput>> deck, int nrCards) {
 
         for (ArrayList<CardInput> temp : deck) {
-            ArrayList<Card> cardsToBeAdded = new ArrayList<Card>();
+            ArrayList<Minion> cardsToBeAdded = new ArrayList<>();
             for (int i = 0; i < nrCards; i++) {
                 cardsToBeAdded.add(inputToCard(temp.get(i)));
+                if (Constants.frontCards.contains(cardsToBeAdded.get(i).getName()))
+                    cardsToBeAdded.get(i).setFront(true);
+                else
+                    cardsToBeAdded.get(i).setFront(false);
+
             }
             Deck aux = new Deck(cardsToBeAdded, nrCards);
             playerDecks.add(aux);
@@ -87,8 +95,8 @@ public class Game {
         for (GameInput g : game) {
             StartGameInput start = g.getStartGame();
             SetPlayers(start);
-            currentPlayer = start.getStartingPlayer();
-            players[0].drawCard(); //TODO: Change it so it happens every round
+            currentPlayer = start.getStartingPlayer() - 1;
+            players[0].drawCard();
             players[1].drawCard();
             for (ActionsInput a : g.getActions()) {
                 String command = a.getCommand();
@@ -114,7 +122,7 @@ public class Game {
 
                     case "getPlayerTurn": {
                         node = printCommand(a, mapper);
-                        node.put("output", currentPlayer);
+                        node.put("output", currentPlayer + 1);
 
                         output.add(node);
                     }
@@ -122,7 +130,7 @@ public class Game {
 
                     case "endPlayerTurn": {
                         currentPlayer = (currentPlayer + 1) % 2;
-                        if (currentPlayer == start.getStartingPlayer()) {
+                        if (currentPlayer == start.getStartingPlayer() - 1) {
                             // when it's the starting player's turn again, a round has finished
                             round++;
                             players[0].addMana(round);
@@ -134,7 +142,24 @@ public class Game {
                     break;
 
                     case "placeCard": {
+                        idx = a.getHandIdx();
+                        board.placeCard(players[currentPlayer], players[currentPlayer].getCard(idx));
 
+                    }
+                    break;
+
+                    case "getCardsInHand": {
+                        node = printCommand(a, mapper);
+                        node.put("output", players[idx - 1].printHand(mapper));
+                        output.add(node);
+
+                    }
+                    break;
+
+                    case "getCardsOnTable": {
+                        node = printCommand(a, mapper);
+                        node.put("output", board.printBoard(mapper));
+                        output.add(node);
                     }
                     break;
                 }

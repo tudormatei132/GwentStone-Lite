@@ -69,7 +69,8 @@ public final class Main {
                 Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
-        Game game = new Game();
+        Board b = Board.getInstance();
+        Game game = new Game(b);
         game.startGame(inputData, output);
         System.out.println(output.toString());
         /*
