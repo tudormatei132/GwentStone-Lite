@@ -30,13 +30,15 @@ public class Player {
         return this.no;
     }
 
-    public int getFrontRow() {
-        return this.no % 2 + 1;
+
+
+    public int getRow(Minion minion) {
+        if (minion.isFront())
+            return ((no % 2 + 1));
+        else
+            return ((no + 2) % 4);
     }
 
-    public int getBackRow() {
-        return (this.no + 2) % 4;
-    }
 
 
 
@@ -64,18 +66,13 @@ public class Player {
     }
 
     public void addMana(int round) {
-        this.mana += round;
-        if (this.mana > 10)
-            this.mana = 10;
+        this.mana += Math.min(round, 10);
     }
 
     public boolean hasEnoughMana(Card card) {
-        if (this.mana >= card.getMana()) {
+        if (this.mana >= card.getMana())
             return true;
-        } else {
-            System.out.println("Not enough mana");
-            return false;
-        }
+        return false;
     }
     public void drawCard() {
         if (currentDeck.getDeck().size() > 0) {}
@@ -113,6 +110,8 @@ public class Player {
     }
 
     public Minion getCard(int idx) {
-        return hand.get(idx);
+        if (hand.size() > 0)
+            return hand.get(idx);
+        return null;
     }
 }

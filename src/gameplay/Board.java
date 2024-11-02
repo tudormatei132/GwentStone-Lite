@@ -23,17 +23,21 @@ public class Board {
         return instance;
     }
 
-    public void placeCard(Player p, Minion c) {
-        if (p.hasEnoughMana(c)) {
-            if (c.isFront()) {
-                this.rows[p.getFrontRow()].placeCard(c);
-            } else {
-                this.rows[p.getBackRow()].placeCard(c);
-            }
-            p.addMana(-c.getMana());
-            p.getHand().remove(c);
-        }
+    public Row[] getRows() {
+        return rows;
+    }
 
+    public int placeCard(Player p, int idx) {
+
+        if (!p.hasEnoughMana(p.getCard(idx)))
+            return -2;
+
+        if (!rows[p.getRow(p.getCard(idx))].placeCard(p.getCard(idx)))
+            return -1;
+
+        p.addMana((-1) * p.getCard(idx).getMana());
+        p.getHand().remove(p.getCard(idx));
+        return 0; //success
     }
 
     public ArrayNode printBoard(ObjectMapper mapper) {
@@ -42,6 +46,12 @@ public class Board {
             res.add(rows[i].printRow(mapper));
         }
         return res;
+    }
+
+    public void resetBoard() {
+        for(int i = 0; i < 4; i++) {
+            rows[i].resetRow();
+        }
     }
 
 }

@@ -143,7 +143,18 @@ public class Game {
 
                     case "placeCard": {
                         idx = a.getHandIdx();
-                        board.placeCard(players[currentPlayer], players[currentPlayer].getCard(idx));
+                        int res = board.placeCard(players[currentPlayer], idx);
+                        if (res < 0) {
+
+                            node = printCommand(a, mapper);
+                            node.put("handIdx", idx);
+                            if (res == -2)
+                                node.put("error", "Not enough mana to place card on table.");
+                            else {
+                                node.put("error", "Cannot place card on table since row is full.");
+                            }
+                            output.add(node);
+                        }
 
                     }
                     break;
@@ -160,6 +171,20 @@ public class Game {
                         node = printCommand(a, mapper);
                         node.put("output", board.printBoard(mapper));
                         output.add(node);
+                    }
+                    break;
+
+                    case "getPlayerMana": {
+                        node = printCommand(a, mapper);
+                        node.put("output", players[idx - 1].getMana());
+                        output.add(node);
+                    }
+                    break;
+
+                    case "cardUsesAttack": {
+                        Coordinates attacker, attacked;
+                        attacker = a.getCardAttacker();
+                        attacked = a.getCardAttacked();
                     }
                     break;
                 }

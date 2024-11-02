@@ -14,13 +14,10 @@ public class Row {
         row = new ArrayList<>();
     }
 
-    public void placeCard(Minion card) {
-        if (this.row.size() < max_length) {
-            this.row.add(card);
-        } else {
-            System.out.println("Row is full");
-        }
+    public boolean placeCard(Minion card) {
 
+        row.add(card);
+        return true;
     }
 
     public void removeCard(int idx) {
@@ -34,5 +31,11 @@ public class Row {
             rowNode.add(node);
         }
         return rowNode;
+    }
+
+    public void resetRow() {
+        while (row.size() > 0) {
+            row.remove(0);
+        }
     }
 }
