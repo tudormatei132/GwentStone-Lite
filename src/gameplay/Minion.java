@@ -1,11 +1,15 @@
 package gameplay;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Minion extends Card {
 
     private boolean isTank;
 
+
+
+    private Ability ability = null;
     public Minion(int mana, int health, int attackDamage, String description, String name, ArrayList<String> colors, boolean isTank) {
         super(mana, health, attackDamage, description, name, colors);
         this.isTank = isTank;
@@ -13,6 +17,27 @@ public class Minion extends Card {
 
     public boolean mustBeAttacked() {
         return false;
+    }
+
+    public void setAbility() {
+        if (getName().equals("The Ripper")) {
+            ability = new WeakKnees(this);
+            return;
+        }
+
+        if (getName().equals("Miraj")) {
+            ability = new Skyjack(this);
+            return;
+        }
+
+        if (getName().equals("The Cursed One")) {
+            ability = new Shapeshift(this);
+            return;
+        }
+
+        if (getName().equals("Disciple")) {
+            ability = new GodsPlan(this);
+        }
     }
 
     public boolean isTank() {
@@ -31,6 +56,13 @@ public class Minion extends Card {
         return 0; // can attack
     }
 
+    public Ability getAbility() {
+        return ability;
+    }
+
+
+
+
     public void attack(Card c) {
         c.reduceHealth(this.getAttackDamage());
         setHasAttacked(true);
@@ -41,4 +73,10 @@ public class Minion extends Card {
         setFrozen(false);
         setHasAttacked(false);
     }
+
+    public void useAbility(Minion m) {
+        ability.useAbility(m);
+        setHasAttacked(true);
+    }
+
 }

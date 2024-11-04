@@ -42,7 +42,7 @@ public class Game {
                     cardsToBeAdded.get(i).setFront(true);
                 else
                     cardsToBeAdded.get(i).setFront(false);
-
+                cardsToBeAdded.get(i).setAbility();
             }
             Deck aux = new Deck(cardsToBeAdded, nrCards);
             playerDecks.add(aux);
@@ -210,6 +210,21 @@ public class Game {
                             node.put("output", "No card available at that position.");
                         }
                         output.add(node);
+                    }
+                    break;
+
+                    case "cardUsesAbility": {
+                        Coordinates attacker, attacked;
+                        attacker = a.getCardAttacker();
+                        attacked = a.getCardAttacked();
+                        String result = board.useAbility(attacker, attacked);
+                        if (result != null) {
+                            node = printCommand(a, mapper);
+                            node.put("cardAttacker", mapper.valueToTree(attacker));
+                            node.put("cardAttacked", mapper.valueToTree(attacked));
+                            node.put("error", result);
+                            output.add(node);
+                        }
                     }
                     break;
                 }

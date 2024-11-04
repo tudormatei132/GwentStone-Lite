@@ -87,6 +87,42 @@ public class Board {
 
     }
 
+    public String useAbility(Coordinates c1, Coordinates c2) {
+        Minion caster = rows[c1.getX()].getRow().get(c1.getY());
+        if (caster.isFrozen())
+            return "Attacker card is frozen.";
+
+        if (caster.getHasAttacked())
+            return "Attacker card has already attacked.";
+
+        boolean castOnEnemies = caster.getAbility().isMustBeCastOnEnemies();
+        if (castOnEnemies & Constants.Player1Rows.contains(c1.getX()) ==
+                Constants.Player1Rows.contains(c2.getX())) {
+            return "Attacked card does not belong to the enemy.";
+        }
+
+        if (!castOnEnemies & Constants.Player1Rows.contains(c1.getX()) !=
+            Constants.Player1Rows.contains(c2.getX())) {
+            return "Attacked card does not belong to the current player.";
+        }
+        Minion target = rows[c2.getX()].getRow().get(c2.getY());
+        if (castOnEnemies && !target.isTank()) {
+            if (Constants.Player1Rows.contains(c1.getX())) {
+                if (rows[1].existsTank())
+                    return "Attacked card is not of type 'Tank’.";
+            } else {
+                if (rows[2].existsTank())
+                    return "Attacked card is not of type 'Tank’.";
+            }
+        }
+
+
+        caster.useAbility(target);
+        rows[c2.getX()].removeCard(c2.getY());
+        return null;
+    }
+
+
     public void resetCards() {
         for (int i = 0; i < 4; i++)
             rows[i].resetCards();
