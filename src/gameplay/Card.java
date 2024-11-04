@@ -109,11 +109,11 @@ public class Card {
     }
 
 
-    public void attack(Card c) {
-        c.reduceHealth(this.getAttackDamage());
-    }
-    public void resetAttack() {
-        hasAttacked = false;
+    public boolean getHasAttacked() {
+        return hasAttacked;
     }
 
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
+    }
 }

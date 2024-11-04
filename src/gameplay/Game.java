@@ -137,6 +137,7 @@ public class Game {
                             players[1].addMana(round);
                             players[0].drawCard();
                             players[1].drawCard();
+                            board.resetCards();
                         }
                     }
                     break;
@@ -185,6 +186,30 @@ public class Game {
                         Coordinates attacker, attacked;
                         attacker = a.getCardAttacker();
                         attacked = a.getCardAttacked();
+                        String result = board.useAttack(attacker, attacked);
+                        if (result != null) {
+                            node = printCommand(a, mapper);
+                            node.put("cardAttacker", mapper.valueToTree(attacker));
+                            node.put("cardAttacked", mapper.valueToTree(attacked));
+                            node.put("error", result);
+                            output.add(node);
+                        }
+                    }
+                    break;
+
+                    case "getCardAtPosition": {
+                        int x = a.getX(), y = a.getY();
+                        node = printCommand(a, mapper);
+                        node.put("x", x);
+                        node.put("y", y);
+                        Minion card = board.getCardAtPosition(x, y);
+                        if (card != null) {
+                            ObjectNode on = card.print(mapper);
+                            node.put("output", on);
+                        } else {
+                            node.put("output", "No card available at that position.");
+                        }
+                        output.add(node);
                     }
                     break;
                 }

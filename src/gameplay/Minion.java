@@ -22,4 +22,23 @@ public class Minion extends Card {
     public void setTank(boolean tank) {
         isTank = tank;
     }
+
+    public int isAbleToAttack() {
+        if (isFrozen())
+            return -1;
+        if (getHasAttacked())
+            return 1;
+        return 0; // can attack
+    }
+
+    public void attack(Card c) {
+        c.reduceHealth(this.getAttackDamage());
+        setHasAttacked(true);
+    }
+
+
+    public void resetStatus() {
+        setFrozen(false);
+        setHasAttacked(false);
+    }
 }

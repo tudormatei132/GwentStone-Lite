@@ -14,6 +14,14 @@ public class Row {
         row = new ArrayList<>();
     }
 
+    public ArrayList<Minion> getRow() {
+        return row;
+    }
+
+    public void setRow(ArrayList<Minion> row) {
+        this.row = row;
+    }
+
     public boolean placeCard(Minion card) {
 
         row.add(card);
@@ -21,7 +29,9 @@ public class Row {
     }
 
     public void removeCard(int idx) {
-        this.row.remove(idx);
+        if (row.get(idx).getHealth() <= 0) {
+            row.remove(idx);
+        }
     }
 
     public ArrayNode printRow(ObjectMapper mapper) {
@@ -38,4 +48,17 @@ public class Row {
             row.remove(0);
         }
     }
+
+    public void resetCards() {
+        for (Minion m : row)
+            m.resetStatus();
+    }
+
+    public boolean existsTank() {
+        for (Minion m : row)
+            if (m.isTank())
+                return true;
+        return false;
+    }
+
 }
