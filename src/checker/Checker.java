@@ -91,12 +91,11 @@ public final class Checker {
         }
         List<String> listFile = Arrays.asList(Objects.requireNonNull(directory.list()));
         Collections.sort(listFile);
-        int i = 0;
+
         for (String file : listFile) {
-            i++;
+
             totalScore += calculateScore(file);
-            if (i == 10)
-                break;
+
         }
 
         System.out.println("-----------------------------------------------------");

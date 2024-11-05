@@ -61,4 +61,13 @@ public class Row {
         return false;
     }
 
+    public ArrayNode getFrozenCards(ObjectMapper mapper) {
+        ArrayNode rowNode = mapper.createArrayNode();
+        for (Minion m : row) {
+            if (m.isFrozen())
+                rowNode.add(m.print(mapper));
+        }
+        return rowNode;
+    }
+
 }

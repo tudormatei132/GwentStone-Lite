@@ -58,7 +58,8 @@ public class Player {
 
 
         for (Minion c : currentDeck.getDeck()) {
-            this.currentDeck.getDeck().add(c);
+            Minion copy = c.copyCard();
+            this.currentDeck.getDeck().add(copy);
         }
 
 
@@ -75,8 +76,9 @@ public class Player {
         return false;
     }
     public void drawCard() {
-        if (currentDeck.getDeck().size() > 0) {}
+        if (currentDeck.getDeck().size() > 0) {
             hand.add(currentDeck.getDeck().remove(0));
+        }
     }
 
     public ArrayList<Minion> getHand() {
@@ -114,4 +116,12 @@ public class Player {
             return hand.get(idx);
         return null;
     }
+
+    public void useHeroAbility(Row row) {
+        hero.getAbility().useAbility(row);
+        this.mana -= hero.getMana();
+        hero.setHasAttacked(true);
+    }
+
+
 }

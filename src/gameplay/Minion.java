@@ -19,6 +19,13 @@ public class Minion extends Card {
         return false;
     }
 
+    public Minion copyCard() {
+        Minion copy = new Minion(getMana(), getHealth(), getAttackDamage(), getDescription(), getName(), getColors(), isTank);
+        copy.setFront(this.isFront());
+        copy.setAbility();
+        return copy;
+    }
+
     public void setAbility() {
         if (getName().equals("The Ripper")) {
             ability = new WeakKnees(this);

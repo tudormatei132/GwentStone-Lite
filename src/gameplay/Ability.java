@@ -20,7 +20,7 @@ abstract class Ability {
         this.minion = minion;
     }
 
-    public boolean isMustBeCastOnEnemies() {
+    public boolean castOnEnemies() {
         return mustBeCastOnEnemies;
     }
 

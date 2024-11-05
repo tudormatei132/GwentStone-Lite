@@ -44,16 +44,16 @@ public final class Main {
         }
         Files.createDirectories(path);
 
-        int i = 0;
+
         for (File file : Objects.requireNonNull(directory.listFiles())) {
             String filepath = CheckerConstants.OUT_PATH + file.getName();
             File out = new File(filepath);
             boolean isCreated = out.createNewFile();
             if (isCreated) {
-                i++;
+
                 action(file.getName(), filepath);
-                if (i == 10)
-                    break;
+
+
             }
         }
 

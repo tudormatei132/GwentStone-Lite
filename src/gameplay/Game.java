@@ -74,6 +74,8 @@ public class Game {
         players[1].setCurrentDeck(p2decks.get(start.getPlayerTwoDeckIdx()), random);
         players[0].setHero(new Hero(inputToCard(start.getPlayerOneHero())));
         players[1].setHero(new Hero(inputToCard(start.getPlayerTwoHero())));
+        players[0].getHero().setHeroAbility();
+        players[1].getHero().setHeroAbility();
     }
 
 
@@ -89,10 +91,15 @@ public class Game {
 
     public void startGame(Input input, ArrayNode output) {
         extractDecks(input);
-        round = 1;
+
+        int games = 0;
+        int p1wins = 0, p2wins = 0;
         ArrayList<GameInput> game = input.getGames();
         ObjectMapper mapper = new ObjectMapper();
         for (GameInput g : game) {
+            games++;
+            round = 1;
+            board.resetBoard();
             StartGameInput start = g.getStartGame();
             SetPlayers(start);
             currentPlayer = start.getStartingPlayer() - 1;
@@ -138,6 +145,8 @@ public class Game {
                             players[0].drawCard();
                             players[1].drawCard();
                             board.resetCards();
+                            players[0].getHero().setHasAttacked(false);
+                            players[1].getHero().setHasAttacked(false);
                         }
                     }
                     break;
@@ -225,6 +234,74 @@ public class Game {
                             node.put("error", result);
                             output.add(node);
                         }
+                    }
+                    break;
+
+                    case "useAttackHero": {
+                        Coordinates attacker;
+                        attacker = a.getCardAttacker();
+                        String result = board.useAttack(attacker, players[(currentPlayer + 1) % 2].getHero());
+                        if (result != null) {
+                            node = printCommand(a, mapper);
+                            node.put("cardAttacker", mapper.valueToTree(attacker));
+                            node.put("error", result);
+                            output.add(node);
+                        } else {
+                            if (players[(currentPlayer + 1) % 2].getHero().getHealth() <= 0) {
+                                if (currentPlayer == 1) {
+                                    node = mapper.createObjectNode();
+                                    node.put("gameEnded", "Player two killed the enemy hero.");
+                                    p2wins++;
+                                } else {
+                                    node = mapper.createObjectNode();
+                                    node.put("gameEnded", "Player one killed the enemy hero.");
+                                    p1wins++;
+                                }
+                                output.add(node);
+                            }
+                        }
+
+                    }
+                    break;
+
+                    case "useHeroAbility": {
+                        int row = a.getAffectedRow();
+                        String result = board.useHeroAbility(row, players[currentPlayer]);
+                        if (result != null) {
+                            node = printCommand(a, mapper);
+                            node.put("affectedRow", row);
+                            node.put("error", result);
+                            output.add(node);
+                        }
+                    }
+                    break;
+
+                    case "getFrozenCardsOnTable": {
+                        node = mapper.createObjectNode();
+                        node.put("command", "getFrozenCardsOnTable");
+                        node.put("output", board.getFrozenCards(mapper));
+                        output.add(node);
+                    }
+                    break;
+
+                    case "getTotalGamesPlayed": {
+                        node = printCommand(a, mapper);
+                        node.put("output", games);
+                        output.add(node);
+                    }
+                    break;
+
+                    case "getPlayerOneWins": {
+                        node = printCommand(a, mapper);
+                        node.put("output", p1wins);
+                        output.add(node);
+                    }
+                    break;
+
+                    case "getPlayerTwoWins": {
+                        node = printCommand(a, mapper);
+                        node.put("output", p2wins);
+                        output.add(node);
                     }
                     break;
                 }
