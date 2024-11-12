@@ -94,7 +94,7 @@ public class Board {
             return "Attacker card is frozen.";
 
         if (caster.getHasAttacked())
-            return "Attacker card has already attacked.";
+            return "Attacker card has already attacked this turn.";
 
         boolean castOnEnemies = caster.getAbility().castOnEnemies();
         if (castOnEnemies & Constants.Player1Rows.contains(c1.getX()) ==
@@ -124,8 +124,8 @@ public class Board {
     }
 
 
-    public void resetCards() {
-        for (int i = 0; i < 4; i++)
+    public void resetCards(int player) {
+        for (int i = (player + 1) % 3; i <= (player + 1) % 3 + 1; i++)
             rows[i].resetCards();
     }
 

@@ -91,11 +91,8 @@ public final class Checker {
         }
         List<String> listFile = Arrays.asList(Objects.requireNonNull(directory.list()));
         Collections.sort(listFile);
-
         for (String file : listFile) {
-
             totalScore += calculateScore(file);
-
         }
 
         System.out.println("-----------------------------------------------------");
@@ -160,6 +157,10 @@ public final class Checker {
 
         if (input.contains(CheckerConstants.MULTIPLE_GAMES_INVALID)) {
             return CheckerConstants.MULTIPLE_GAMES_INVALID_POINTS;
+        }
+
+        if (input.contains(CheckerConstants.USE_HERO_ABILITY)) {
+            return CheckerConstants.USE_HERO_ABILITY_POINTS;
         }
 
         if (input.contains(CheckerConstants.BIG_GAME)) {

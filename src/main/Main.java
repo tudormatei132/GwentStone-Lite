@@ -1,12 +1,14 @@
 package main;
 
 import checker.Checker;
-import gameplay.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
 import fileio.Input;
+import gameplay.Board;
+import gameplay.Game;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,16 +46,12 @@ public final class Main {
         }
         Files.createDirectories(path);
 
-
         for (File file : Objects.requireNonNull(directory.listFiles())) {
             String filepath = CheckerConstants.OUT_PATH + file.getName();
             File out = new File(filepath);
             boolean isCreated = out.createNewFile();
             if (isCreated) {
-
                 action(file.getName(), filepath);
-
-
             }
         }
 
@@ -72,11 +70,11 @@ public final class Main {
                 Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
+        
         Board b = Board.getInstance();
         Game game = new Game(b);
         game.startGame(inputData, output);
         b.resetBoard();
-        System.out.println(output.toString());
         /*
          * TODO Implement your function here
          *

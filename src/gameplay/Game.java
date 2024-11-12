@@ -136,6 +136,7 @@ public class Game {
                     break;
 
                     case "endPlayerTurn": {
+                        board.resetCards(currentPlayer + 1);
                         currentPlayer = (currentPlayer + 1) % 2;
                         if (currentPlayer == start.getStartingPlayer() - 1) {
                             // when it's the starting player's turn again, a round has finished
@@ -144,7 +145,6 @@ public class Game {
                             players[1].addMana(round);
                             players[0].drawCard();
                             players[1].drawCard();
-                            board.resetCards();
                             players[0].getHero().setHasAttacked(false);
                             players[1].getHero().setHasAttacked(false);
                         }

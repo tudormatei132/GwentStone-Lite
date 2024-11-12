@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Player {
+public final class Player {
     private int mana;
     private Deck currentDeck;
     private ArrayList<Minion> hand;
