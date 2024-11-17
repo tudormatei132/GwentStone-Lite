@@ -8,8 +8,8 @@ public final class GodsPlan extends Ability {
     }
 
     /**
-     *
-     * @param target
+     * increases the minion's health by 2
+     * @param target the target Minion
      */
     public void useAbility(final Minion target) {
         target.reduceHealth(-2);

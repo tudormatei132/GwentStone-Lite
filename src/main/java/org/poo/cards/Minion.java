@@ -24,8 +24,9 @@ public final class Minion extends Card {
     }
 
     /**
-     *
-     * @return
+     * creates a minion copy of a card
+     * was used to not alter the decks
+     * @return a copy of the card
      */
     public Minion copyCard() {
         Minion copy = new Minion(getMana(), getHealth(), getAttackDamage(), getDescription(),
@@ -36,7 +37,8 @@ public final class Minion extends Card {
     }
 
     /**
-     *
+     * checks if the minion should have any ability based on its name
+     * and sets it if that's the case
      */
     public void setAbility() {
         if (getName().equals("The Ripper")) {
@@ -62,7 +64,8 @@ public final class Minion extends Card {
 
     /**
      *
-     * @return
+     * @return -1 if the card's frozen, 1 if already attacked, or 0 if able to attack
+     * return value is used for printing the correct error message
      */
     public int isAbleToAttack() {
         if (isFrozen()) {
@@ -77,8 +80,8 @@ public final class Minion extends Card {
 
 
     /**
-     *
-     * @param c
+     * the current minion attacks another card
+     * @param c the attacked card
      */
     public void attack(final Card c) {
         c.reduceHealth(this.getAttackDamage());
@@ -86,7 +89,7 @@ public final class Minion extends Card {
     }
 
     /**
-     *
+     * resets the state of a minion
      */
     public void resetStatus() {
         setFrozen(false);
@@ -94,12 +97,14 @@ public final class Minion extends Card {
     }
 
     /**
-     *
-     * @param m
+     * the current minion uses its ability (if it has one)
+     * @param m the target minion
      */
     public void useAbility(final Minion m) {
-        ability.useAbility(m);
-        setHasAttacked(true);
+        if (ability != null) {
+            ability.useAbility(m);
+            setHasAttacked(true);
+        }
     }
 
 }

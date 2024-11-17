@@ -22,7 +22,7 @@ public final class Hero extends Card {
     }
 
     /**
-     *
+     * gives the corresponding ability to the heroes
      */
     public void setHeroAbility() {
         if (getName().equals("Lord Royce")) {

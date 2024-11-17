@@ -26,8 +26,9 @@ public final class Deck {
 
     /**
      *
-     * @param mapper
-     * @return
+     * @param mapper the mapper from the "Game" class
+     * @return an ArrayNode which helps printing cards in JSON format in an array
+     * the array representing the deck
      */
     public ArrayNode printDeck(final ObjectMapper mapper) {
         ArrayNode res = mapper.createArrayNode();

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public abstract class Ability {
-    @Getter
+    @Getter @Setter
     private boolean mustBeCastOnEnemies;
     @Getter
     @Setter
@@ -14,8 +14,8 @@ public abstract class Ability {
     private Minion minion;
 
     /**
-     *
-     * @param target
+     * will be used to cast different abilities
+     * @param target the target minion
      */
     public abstract void useAbility(Minion target);
 
@@ -27,17 +27,11 @@ public abstract class Ability {
 
     /**
      *
-     * @return
+     * @return returns true if the ability must be cast on an enemy
      */
     public boolean castOnEnemies() {
         return mustBeCastOnEnemies;
     }
 
-    /**
-     *
-     * @param mustBeCastOnEnemies
-     */
-    public void setMustBeCastOnEnemies(final boolean mustBeCastOnEnemies) {
-        this.mustBeCastOnEnemies = mustBeCastOnEnemies;
-    }
+
 }

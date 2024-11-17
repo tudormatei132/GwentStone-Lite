@@ -9,8 +9,8 @@ public class LowBlow extends HeroAbility {
     }
 
     /**
-     *
-     * @param row
+     * removes the card with most health from a given row
+     * @param row the target row
      */
     @Override
     public void useAbility(final Row row) {

@@ -2,16 +2,15 @@ package org.poo.gameplay;
 
 import org.poo.cards.Minion;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.fileio.ActionsInput;
 import org.poo.fileio.Coordinates;
-import org.poo.fileio.StartGameInput;
-
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/*
+    will add to the output node the result of the given actions
+ */
 public final class CommandHandler {
 
     private static CommandHandler instance = null;
@@ -25,7 +24,7 @@ public final class CommandHandler {
     }
 
     /*
-    since all functions have the same parameter, I thought a map
+    since all methods have the same parameter, I thought a map
     would be a good choice to skip some if-else statements
      */
     private final Map<String, Consumer<Game>> map = Map.ofEntries(
@@ -49,19 +48,21 @@ public final class CommandHandler {
     );
 
     /**
+     *  searches the HashMap for the method that corresponds to the
+     *  received command and calls it
+     * @param command the command sent by the game manager
+     * @param game  the game manager
      *
-     * @param command
-     * @param game
      */
     public void executeCommand(final String command, final Game game) {
         map.get(command).accept(game);
     }
 
     /**
-     *
-     * @param a
-     * @param mapper
-     * @return
+     * will be used to help to print commands that have an output
+     * @param a the command that will be printed
+     * @param mapper the mapper used to write into the output node
+     * @return the ObjectNode which will be added to the output node, in JSON format
      */
     private ObjectNode printCommand(final ActionsInput a, final ObjectMapper mapper) {
         ObjectNode on = mapper.createObjectNode();
@@ -73,8 +74,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * adds the current player's deck to output
+     * @param game the game manager
      */
     private void getPlayerDeck(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -84,8 +85,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  reset the state of the cards of the next player and checks if a round
+     *  has finished, and gives mana and a card to each player if that's the case
+     * @param game the game manager
      */
     private void endPlayerTurn(final Game game) {
         Board.getInstance().resetCards(game.getCurrentPlayer() + 1);
@@ -103,8 +105,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * used to add the player's hero's details to the output
+     * @param game the game manager
      */
     private void getPlayerHero(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -116,8 +118,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * adds the current player's id to the output node
+     * @param game the gama manager
      */
     private void getPlayerTurn(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -126,8 +128,10 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * tries to place a card on the board
+     * if the placeCard() method returns an error code,
+     * then it will add the corresponding error to the output
+     * @param game the game manager
      */
     private void placeCard(final Game game) {
         int idx = game.getCurrentAction().getHandIdx();
@@ -145,8 +149,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  will add the player's hand in the output node, with the help
+     *  of the Player::printHand() method
+     * @param game the game manager
      */
     private void getCardsInHand(final Game game) {
         int idx = game.getCurrentAction().getPlayerIdx() - 1;
@@ -156,8 +161,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * adds the details of the cards that are place on the board to the output
+     * by calling the Board::printBoard() method
+     * @param game the game manager
      */
     private void getCardsOnTable(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -166,8 +172,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * adds a player's current mana to the output node
+     * @param game the game manager
      */
     private void getPlayerMana(final Game game) {
         int idx = game.getCurrentAction().getPlayerIdx() - 1;
@@ -177,8 +183,10 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * checks if the card was able to attack
+     * if not, print the error message returned by
+     * Board::useAttack()
+     * @param game the game manager
      */
     private void cardUsesAttack(final Game game) {
         Coordinates attacker, attacked;
@@ -187,6 +195,8 @@ public final class CommandHandler {
         String result = game.getBoard().useAttack(attacker, attacked);
         if (result != null) {
             ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
+            // valueToTree() can be used here because the Coordinates class structure
+            // wasn't modified
             node.put("cardAttacker", game.getMapper().valueToTree(attacker));
             node.put("cardAttacked", game.getMapper().valueToTree(attacked));
             node.put("error", result);
@@ -195,8 +205,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * calls Board:getCardAtPosition() and checks if a card was a returned
+     * and print in JSON format, else print an error message
+     * @param game the game manager
      */
     private void getCardAtPosition(final Game game) {
         int x = game.getCurrentAction().getX(), y = game.getCurrentAction().getY();
@@ -214,8 +225,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  tries to use a card's ability, by calling Board:useAbility().
+     *  if an error message is returned, add it to the output node
+     * @param game the game manager
      */
     private void cardUsesAbility(final Game game) {
         Coordinates attacker, attacked;
@@ -232,8 +244,9 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  tries to attack the hero by calling Board::useAttack()
+     *  checks for a returned error message and prints it if one is found
+     * @param game the game manager
      */
     private void useAttackHero(final Game game) {
         Coordinates attacker;
@@ -263,8 +276,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  will call Board::useHeroAbility() and will check for any error message
+     * @param game the game manager
      */
     private void useHeroAbility(final Game game) {
         int row = game.getCurrentAction().getAffectedRow();
@@ -279,8 +292,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  prints all the frozen cards' details
+     * @param game the game manager
      */
     private void getFrozenCardsOnTable(final Game game) {
         ObjectNode node = game.getMapper().createObjectNode();
@@ -290,8 +303,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * prints the number of games that have been played
+     * @param game the game manager
      */
     private void getTotalGamesPlayed(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -300,8 +313,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     *  prints how many wins player 1 has
+     * @param game the game manager
      */
     private void getPlayerOneWins(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
@@ -310,8 +323,8 @@ public final class CommandHandler {
     }
 
     /**
-     *
-     * @param game
+     * prints the number of games won by player 2
+     * @param game the game manager
      */
     private void getPlayerTwoWins(final Game game) {
         ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());

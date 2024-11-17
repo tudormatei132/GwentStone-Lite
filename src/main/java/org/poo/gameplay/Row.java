@@ -22,19 +22,21 @@ public final class Row {
 
 
     /**
-     *
-     * @param card
-     * @return
+     * checks if the row is full
+     * if not, place the card on the row
+     * @param card the card that the players wants to place
+     * @return true if the row wasn't full and false otherwise
      */
     public boolean placeCard(final Minion card) {
-
+        if (row.size() >= Constants.MAX_CARDS_ON_ROW)
+            return false;
         row.add(card);
         return true;
     }
 
     /**
-     *
-     * @param idx
+     * removes the cards that have less than 1 health
+     * @param idx the index of the attacked card
      */
     public void removeCard(final int idx) {
         if (row.get(idx).getHealth() <= 0) {
@@ -43,9 +45,9 @@ public final class Row {
     }
 
     /**
-     *
-     * @param mapper
-     * @return
+     * used to print all cards on the row
+     * @param mapper the mapper used to write in the output node
+     * @return a list of cards placed on the row
      */
     public ArrayNode printRow(final ObjectMapper mapper) {
         ArrayNode rowNode = mapper.createArrayNode();
@@ -57,7 +59,7 @@ public final class Row {
     }
 
     /**
-     *
+     * removes every card from the current row
      */
     public void resetRow() {
         while (row.size() > 0) {
@@ -66,7 +68,7 @@ public final class Row {
     }
 
     /**
-     *
+     * resets the status of every card on the row
      */
     public void resetCards() {
         for (Minion m : row) {
@@ -75,8 +77,8 @@ public final class Row {
     }
 
     /**
-     *
-     * @return
+     * checks if there is any tank Minion on the row
+     * @return true if there is a tank on the row, false otherwise
      */
     public boolean existsTank() {
         for (Minion m : row) {
@@ -86,20 +88,4 @@ public final class Row {
         }
         return false;
     }
-
-    /**
-     *
-     * @param mapper
-     * @return
-     */
-    public ArrayNode getFrozenCards(final ObjectMapper mapper) {
-        ArrayNode rowNode = mapper.createArrayNode();
-        for (Minion m : row) {
-            if (m.isFrozen()) {
-                rowNode.add(m.print(mapper));
-            }
-        }
-        return rowNode;
-    }
-
 }

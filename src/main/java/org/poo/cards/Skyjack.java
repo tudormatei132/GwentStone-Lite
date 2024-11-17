@@ -8,8 +8,8 @@ public final class Skyjack extends Ability {
     }
 
     /**
-     *
-     * @param target
+     * swaps health between the minion that casted the ability and the targeted one
+     * @param target teh target minion
      */
     public void useAbility(final Minion target) {
         int temp = this.getMinion().getHealth();

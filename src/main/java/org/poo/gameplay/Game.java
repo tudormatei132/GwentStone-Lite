@@ -71,9 +71,9 @@ public final class Game {
 
 
     /**
-     *
-     * @param c
-     * @return
+     * creates a new minion based off a card input
+     * @param c the CardInput
+     * @return a new Minion with the stats from CardInput
      */
     public Minion inputToCard(final CardInput c) {
         if (c.getName().equals("Goliath") || c.getName().equals("Warden")) {
@@ -86,10 +86,10 @@ public final class Game {
     }
 
     /**
-     *
-     * @param playerDecks
-     * @param deck
-     * @param nrCards
+     * will create the list of decks of one of the players from the input
+     * @param playerDecks the list of decks of a player
+     * @param deck the list of decks given in the input
+     * @param nrCards number of cards in the deck
      */
     public void formNewDecks(final ArrayList<Deck> playerDecks,
                              final ArrayList<ArrayList<CardInput>> deck, final int nrCards) {
@@ -111,8 +111,9 @@ public final class Game {
     }
 
     /**
-     *
-     * @param input
+     * will create the list of decks for both players, by calling
+     * formNewDecks()
+     * @param input the initial input, used to get the decks
      */
     public void extractDecks(final Input input) {
         DecksInput d1 = input.getPlayerOneDecks(), d2 = input.getPlayerTwoDecks();
@@ -127,8 +128,8 @@ public final class Game {
     }
 
     /**
-     *
-     * @param start
+     * sets the idx of the players, their current decks and Hero
+     * @param start the startGameInput
      */
     public void setPlayers(final StartGameInput start) {
         players[0] = new Player(1);
@@ -143,39 +144,34 @@ public final class Game {
         players[1].getHero().setHeroAbility();
     }
 
+
+
     /**
-     *
-     * @param a
-     * @param mapper
-     * @return
+     * handles the operations that must be done at the start of every game
+     * @param g the input for the game
      */
-    public ObjectNode printCommand(final ActionsInput a, final ObjectMapper mapper) {
-        ObjectNode on = mapper.createObjectNode();
-        on.put("command", a.getCommand());
-        if (a.getPlayerIdx() != 0) {
-            on.put("playerIdx", a.getPlayerIdx());
-        }
-        return on;
+    public void startGame(final GameInput g) {
+        games++;
+        round = 1;
+        board.resetBoard();
+        StartGameInput start = g.getStartGame();
+        setPlayers(start);
+        currentPlayer = start.getStartingPlayer() - 1;
+        startingPlayer = currentPlayer;
+        players[0].drawCard();
+        players[1].drawCard();
     }
 
     /**
-     *
-     * @param input
-     * @param output
+     * will execute all the given commands
+     * @param input the given commands
+     * @param output the output node that will be checked
      */
-    public void startGame(final Input input, final ArrayNode output) {
+    public void executeGames(final Input input, final ArrayNode output) {
         extractDecks(input);
         ArrayList<GameInput> game = input.getGames();
         for (GameInput g : game) {
-            games++;
-            round = 1;
-            board.resetBoard();
-            StartGameInput start = g.getStartGame();
-            setPlayers(start);
-            currentPlayer = start.getStartingPlayer() - 1;
-            startingPlayer = currentPlayer;
-            players[0].drawCard();
-            players[1].drawCard();
+            startGame(g);
             for (ActionsInput a : g.getActions()) {
                 currentAction = a;
                 CommandHandler.getInstance().executeCommand(a.getCommand(), this);
@@ -183,5 +179,5 @@ public final class Game {
         }
 
     }
-
 }
+

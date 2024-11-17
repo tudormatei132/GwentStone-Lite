@@ -15,5 +15,5 @@ public final class Constants {
     public static final ArrayList<Integer> PLAYER_1_ROWS = new ArrayList<>(Arrays.asList(2, 3));
     public static final int HERO_HEALTH = 30;
     public static final int ROWS_NO = 4;
-
+    public static final int MAX_CARDS_ON_ROW = 5;
 }

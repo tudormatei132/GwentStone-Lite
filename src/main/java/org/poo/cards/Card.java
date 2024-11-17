@@ -27,6 +27,7 @@ public class Card {
     private boolean isFrozen;
     @Getter @Setter
     private boolean front;
+    @Getter @Setter
     private boolean hasAttacked;
 
     public Card(final int mana, final int health, final int attackDamage,
@@ -42,8 +43,8 @@ public class Card {
 
 
     /**
-     *
-     * @param damage
+     * will also be used to heal a minion by taking negative damage
+     * @param damage the amount of health that will be reduced
      */
     public void reduceHealth(final int damage) {
         this.health -= damage;
@@ -53,8 +54,8 @@ public class Card {
 
     /**
      *
-     * @param mapper
-     * @return
+     * @param mapper the mapper that's used in the game class
+     * @return an ObjectNode that will help printing the card in JSON format
      */
     public ObjectNode print(final ObjectMapper mapper) {
         ObjectNode on = mapper.createObjectNode();
@@ -72,18 +73,12 @@ public class Card {
     }
 
     /**
-     *
-     * @return
+     * a getter for the private variable hasAttacked
+     * @return the value of hasAttacked
      */
     public boolean getHasAttacked() {
         return hasAttacked;
     }
 
-    /**
-     *
-     * @param hasAttacked
-     */
-    public void setHasAttacked(final boolean hasAttacked) {
-        this.hasAttacked = hasAttacked;
-    }
+
 }

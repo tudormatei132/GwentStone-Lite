@@ -25,8 +25,8 @@ public final class Board {
     }
 
     /**
-     *
-     * @return
+     * used to implement the Singleton pattern
+     * @return the Board instance
      */
     public static Board getInstance() {
         if (instance == null) {
@@ -39,10 +39,11 @@ public final class Board {
 
 
     /**
-     *
-     * @param p
-     * @param idx
-     * @return
+     * tries to place a card on the board
+     * @param p the player that tries to place the card
+     * @param idx the hand index of the card
+     * @return -2 if the players doesn't have enough mana
+     * -1 if the row is full or 0 if operation was successful
      */
     public int placeCard(Player p, final int idx) {
 
@@ -60,9 +61,9 @@ public final class Board {
     }
 
     /**
-     *
-     * @param mapper
-     * @return
+     * will be used to print every card, from every row, to the output node
+     * @param mapper the mapper from Game
+     * @return an ArrayNode which has a list for every row with each card's details
      */
     public ArrayNode printBoard(final ObjectMapper mapper) {
         ArrayNode res = mapper.createArrayNode();
@@ -73,7 +74,7 @@ public final class Board {
     }
 
     /**
-     *
+     * resets the board at the end of a game
      */
     public void resetBoard() {
         for (int i = 0; i < Constants.ROWS_NO; i++) {
@@ -82,10 +83,11 @@ public final class Board {
     }
 
     /**
-     *
-     * @param c1
-     * @param c2
-     * @return
+     * checks if an attack can be made and performs it
+     * if the requirements are met
+     * @param c1 coordinates of the attacker
+     * @param c2 coordinates of the attacked card
+     * @return the error message or null if the attack happened
      */
     public String useAttack(final Coordinates c1, final Coordinates c2) {
 
@@ -124,10 +126,11 @@ public final class Board {
     }
 
     /**
-     *
-     * @param c1
-     * @param c2
-     * @return
+     * checks if an ability can be used and uses it
+     * if the requirements are met
+     * @param c1 coordinates of the attacker
+     * @param c2 coordinates of the attacked card
+     * @return the error message or null if the ability was cast
      */
     public String useAbility(final Coordinates c1, final Coordinates c2) {
         Minion caster = rows[c1.getX()].getRow().get(c1.getY());
@@ -169,8 +172,8 @@ public final class Board {
     }
 
     /**
-     *
-     * @param player
+     * reset the state of every card of the player
+     * @param player the player whose turn just ended
      */
     public void resetCards(final int player) {
         for (int i = (player + 1) % 3; i <= (player + 1) % 3 + 1; i++) {
@@ -179,10 +182,10 @@ public final class Board {
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return
+     * gets the card at a given position
+     * @param x the row number
+     * @param y the index on the row
+     * @return the Minion at that position if it was a valid one
      */
     public Minion getCardAtPosition(final int x, final int y) {
         if (rows[x].getRow().size() > y) {
@@ -192,10 +195,10 @@ public final class Board {
     }
 
     /**
-     *
-     * @param c1
-     * @param hero
-     * @return
+     * a card will try to perform an attack on the enemy hero
+     * @param c1 the coordinates of the attacker card
+     * @param hero the attacked Hero
+     * @return an error message as a String if the attack couldn't be performed
      */
     public String useAttack(final Coordinates c1, final Hero hero) {
 
@@ -228,10 +231,10 @@ public final class Board {
     }
 
     /**
-     *
-     * @param row
-     * @param p
-     * @return
+     * will try to use a hero's ability
+     * @param row the targeted row
+     * @param p the player that tries to cast the hero ability
+     * @return an error message if there's one
      */
     public String useHeroAbility(final int row, final Player p) {
 
@@ -261,9 +264,10 @@ public final class Board {
     }
 
     /**
-     *
-     * @param mapper
-     * @return
+     * will check every row for frozen cards and will be used to
+     * add them to the output node
+     * @param mapper the mapper from the game class
+     * @return an ArrayNode that is made of lists of the details of frozen cards from every row
      */
     public ArrayNode getFrozenCards(final ObjectMapper mapper) {
         ArrayNode node = mapper.createArrayNode();
@@ -273,7 +277,6 @@ public final class Board {
                     node.add(m.print(mapper));
                 }
             }
-
         }
         return node;
     }

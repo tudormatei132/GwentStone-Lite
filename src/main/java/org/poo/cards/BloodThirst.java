@@ -10,8 +10,8 @@ public final class BloodThirst extends HeroAbility {
     }
 
     /**
-     *
-     * @param row
+     * increments every minion's attack damage on a given row
+     * @param row the targeted row
      */
     public void useAbility(final Row row) {
         for (Minion m : row.getRow()) {

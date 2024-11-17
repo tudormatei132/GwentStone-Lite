@@ -9,8 +9,8 @@ public final class EarthBorn extends HeroAbility {
     }
 
     /**
-     *
-     * @param row
+     * increments the health of every minion for the target row
+     * @param row the targeted row
      */
     public void useAbility(final Row row) {
         for (Minion m : row.getRow()) {

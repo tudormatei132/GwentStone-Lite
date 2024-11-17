@@ -1,14 +1,14 @@
 package org.poo.main;
 
-import checker.Checker;
+import org.poo.checker.Checker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import checker.CheckerConstants;
-import fileio.Input;
-import gameplay.Board;
-import gameplay.Game;
+import org.poo.checker.CheckerConstants;
+import org.poo.fileio.Input;
+import org.poo.gameplay.Board;
+import org.poo.gameplay.Game;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +72,7 @@ public final class Main {
         ArrayNode output = objectMapper.createArrayNode();
         Board b = Board.getInstance();
         Game game = new Game(b, output);
-        game.startGame(inputData, output);
+        game.executeGames(inputData, output);
         b.resetBoard();
         /*
          * TODO Implement your function here
