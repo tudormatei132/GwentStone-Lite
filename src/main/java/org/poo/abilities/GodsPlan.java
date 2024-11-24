@@ -1,4 +1,7 @@
-package org.poo.cards;
+package org.poo.abilities;
+
+import org.poo.cards.Minion;
+import org.poo.gameplay.Constants;
 
 public final class GodsPlan extends Ability {
 
@@ -12,6 +15,6 @@ public final class GodsPlan extends Ability {
      * @param target the target Minion
      */
     public void useAbility(final Minion target) {
-        target.reduceHealth(-2);
+        target.reduceHealth(Constants.GODS_PLAN_HEAL);
     }
 }

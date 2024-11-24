@@ -72,7 +72,7 @@ public final class Main {
         ArrayNode output = objectMapper.createArrayNode();
         Board b = Board.getInstance();
         Game game = new Game(b, output);
-        game.executeGames(inputData, output);
+        game.executeGames(inputData);
         b.resetBoard();
         /*
          * TODO Implement your function here

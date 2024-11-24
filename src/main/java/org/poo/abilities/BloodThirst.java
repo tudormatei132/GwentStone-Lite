@@ -1,5 +1,6 @@
-package org.poo.cards;
+package org.poo.abilities;
 
+import org.poo.cards.Minion;
 
 import org.poo.gameplay.Row;
 

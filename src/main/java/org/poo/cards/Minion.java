@@ -3,6 +3,12 @@ package org.poo.cards;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.poo.abilities.Ability;
+import org.poo.abilities.WeakKnees;
+import org.poo.abilities.Shapeshift;
+import org.poo.abilities.Skyjack;
+import org.poo.abilities.GodsPlan;
+
 import java.util.ArrayList;
 
 public final class Minion extends Card {
@@ -19,9 +25,6 @@ public final class Minion extends Card {
         this.isTank = isTank;
     }
 
-    public boolean mustBeAttacked() {
-        return false;
-    }
 
     /**
      * creates a minion copy of a card

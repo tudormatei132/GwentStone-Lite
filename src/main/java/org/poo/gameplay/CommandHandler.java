@@ -16,6 +16,11 @@ public final class CommandHandler {
     private static CommandHandler instance = null;
     private CommandHandler() {
     }
+
+    /**
+     * necessary for the Singleton pattern
+     * @return the instance of the handler
+     */
     public static CommandHandler getInstance() {
         if (instance == null) {
             instance = new CommandHandler();
@@ -139,7 +144,7 @@ public final class CommandHandler {
         if (res < 0) {
             ObjectNode node = printCommand(game.getCurrentAction(), game.getMapper());
             node.put("handIdx", idx);
-            if (res == -2) {
+            if (res == Constants.NOT_ENOUGH_MANA_ERROR_CODE) {
                 node.put("error", "Not enough mana to place card on table.");
             } else {
                 node.put("error", "Cannot place card on table since row is full.");

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.fileio.CardInput;
 import org.poo.fileio.ActionsInput;
 import org.poo.fileio.GameInput;
@@ -39,11 +38,8 @@ public final class Game {
     private ObjectMapper mapper;
     @Getter @Setter
     private int p1wins, p2wins, games;
-    public Game() {
-        players = new Player[2];
-    }
 
-    public Game(final Board b, ArrayNode output) {
+    public Game(final Board b, final ArrayNode output) {
         players = new Player[2];
         board = b;
         this.output = output;
@@ -165,9 +161,8 @@ public final class Game {
     /**
      * will execute all the given commands
      * @param input the given commands
-     * @param output the output node that will be checked
      */
-    public void executeGames(final Input input, final ArrayNode output) {
+    public void executeGames(final Input input) {
         extractDecks(input);
         ArrayList<GameInput> game = input.getGames();
         for (GameInput g : game) {

@@ -17,7 +17,7 @@ public final class Board {
 
 
     private Board() {
-        rows = new Row[4];
+        rows = new Row[Constants.LAST_ROW + 1];
         for (int i = 0; i < Constants.ROWS_NO; i++) {
             this.rows[i] = new Row();
         }
@@ -45,10 +45,10 @@ public final class Board {
      * @return -2 if the players doesn't have enough mana
      * -1 if the row is full or 0 if operation was successful
      */
-    public int placeCard(Player p, final int idx) {
+    public int placeCard(final Player p, final int idx) {
 
         if (!p.hasEnoughMana(p.getCard(idx))) {
-            return -2;
+            return Constants.NOT_ENOUGH_MANA_ERROR_CODE;
         }
 
         if (!rows[p.getRow(p.getCard(idx))].placeCard(p.getCard(idx))) {
@@ -176,7 +176,8 @@ public final class Board {
      * @param player the player whose turn just ended
      */
     public void resetCards(final int player) {
-        for (int i = (player + 1) % 3; i <= (player + 1) % 3 + 1; i++) {
+        for (int i = (player + 1) % Constants.LAST_ROW;
+             i <= (player + 1) % Constants.LAST_ROW + 1; i++) {
             rows[i].resetCards();
         }
     }

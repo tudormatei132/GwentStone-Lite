@@ -2,6 +2,12 @@ package org.poo.cards;
 
 
 import java.util.ArrayList;
+
+import org.poo.abilities.LowBlow;
+import org.poo.abilities.HeroAbility;
+import org.poo.abilities.SubZero;
+import org.poo.abilities.BloodThirst;
+import org.poo.abilities.EarthBorn;
 import org.poo.gameplay.Constants;
 import lombok.Getter;
 

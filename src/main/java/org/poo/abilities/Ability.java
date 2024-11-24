@@ -1,7 +1,8 @@
-package org.poo.cards;
+package org.poo.abilities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.poo.cards.Minion;
 
 public abstract class Ability {
     @Getter @Setter

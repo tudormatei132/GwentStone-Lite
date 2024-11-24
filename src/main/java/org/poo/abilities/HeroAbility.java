@@ -1,4 +1,4 @@
-package org.poo.cards;
+package org.poo.abilities;
 
 
 import lombok.Getter;

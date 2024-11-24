@@ -1,4 +1,6 @@
-package org.poo.cards;
+package org.poo.abilities;
+
+import org.poo.cards.Minion;
 
 public final class Skyjack extends Ability {
 
@@ -8,7 +10,7 @@ public final class Skyjack extends Ability {
     }
 
     /**
-     * swaps health between the minion that casted the ability and the targeted one
+     * swaps health between the minion that cast the ability and the targeted one
      * @param target teh target minion
      */
     public void useAbility(final Minion target) {

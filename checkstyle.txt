@@ -1,21 +1,2 @@
 Starting audit...
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\cards\GodsPlan.java:15:29: '-2' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\cards\Minion.java:22:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Board.java:20:24: '4' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Board.java:48:26: Parameter p should be final. [FinalParameters]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Board.java:51:20: '-2' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Board.java:179:37: '3' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Board.java:179:60: '3' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\CommandHandler.java:19:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\CommandHandler.java:142:24: '-2' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Constants.java:5:8: Unused import - java.util.HashMap. [UnusedImports]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Constants.java:6:8: Unused import - java.util.Map. [UnusedImports]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Game.java:7:8: Unused import - com.fasterxml.jackson.databind.node.ObjectNode. [UnusedImports]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Game.java:46:32: Parameter output should be final. [FinalParameters]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Game.java:170:65: 'output' hides a field. [HiddenField]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Player.java:54:32: '4' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Player.java:63:43: 'currentDeck' hides a field. [HiddenField]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Player.java:80:39: '10' is a magic number. [MagicNumber]
-[ERROR] C:\Users\Tudor\Documents\POO\TEMA\.\src\main\java\org\poo\gameplay\Row.java:31:9: 'if' construct must use '{}'s. [NeedBraces]
 Audit done.
-Checkstyle ends with 18 errors.

@@ -28,8 +28,9 @@ public final class Row {
      * @return true if the row wasn't full and false otherwise
      */
     public boolean placeCard(final Minion card) {
-        if (row.size() >= Constants.MAX_CARDS_ON_ROW)
+        if (row.size() >= Constants.MAX_CARDS_ON_ROW) {
             return false;
+        }
         row.add(card);
         return true;
     }

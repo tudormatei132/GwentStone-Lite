@@ -51,19 +51,19 @@ public final class Player {
         if (minion.isFront()) {
             return ((no % 2 + 1));
         } else {
-            return ((no + 2) % 4);
+            return ((no + 2) % Constants.ROWS_NO);
         }
     }
 
     /**
      * will copy the given deck so it won't be modified after a game in which it was used
-     * @param currentDeck the deck that will be copied
+     * @param deck the deck that will be copied
      * @param random the shuffle seed
      */
-    public void setCurrentDeck(final Deck currentDeck, final Random random) {
+    public void setCurrentDeck(final Deck deck, final Random random) {
 
 
-        for (Minion c : currentDeck.getDeck()) {
+        for (Minion c : deck.getDeck()) {
             Minion copy = c.copyCard();
             this.currentDeck.getDeck().add(copy);
         }
@@ -77,7 +77,7 @@ public final class Player {
      * @param amount the amount of mana we want to add
      */
     public void addMana(final int amount) {
-        this.mana += Math.min(amount, 10);
+        this.mana += Math.min(amount, Constants.MAX_MANA_GAIN);
     }
 
     /**

@@ -1,6 +1,7 @@
-package org.poo.cards;
+package org.poo.abilities;
 
 import org.poo.gameplay.Row;
+import org.poo.cards.Minion;
 
 public class LowBlow extends HeroAbility {
 
