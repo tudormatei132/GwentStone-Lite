@@ -5,8 +5,8 @@ import org.poo.cards.Minion;
 public final class Shapeshift extends Ability {
 
 
-    public Shapeshift(final Minion m) {
-        super(true, "Shapeshift", m);
+    public Shapeshift() {
+        super(true, "Shapeshift");
     }
 
     /**

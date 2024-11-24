@@ -1,42 +1,95 @@
+Matei Tudor-Andrei - 324CA
+
+# TEMA 0 - GwentStone Light
+
+## Short description of the app
+	
+The application gives the result of a board game (inspired by HearthStone) using
+the given commands as input and also can print the status of the game while it's
+being played.
+
+The input is given in the JSON format and the results will be printed into 
+files in the same format. For the managing the input and printing the output,
+the Object Mapper, ArrayNode, ObjectNode and ObjectWritter classes from
+the com.fasterxml.jackson.databind library were used. The class that represents
+objects that will be printed will also have a method which will return an ObjectNode
+that contains the needed stats which will later be added to the output ArrayNode.
+
+## Classes
+
+### Gameplay Package
+
+Contains the following classes:
+
+#### Game
+
+- is used to set up the games (e.g. extracting the data from the input and
+creating the decks for each player, setting the starting player)
+- used to also execute all the games, but without handling any command
+- has variables to count different stats ( the number of games played and
+the number of wins for every player)
+- contains some variables that are used by the CommandHandler too,
+such as the currentAction or the output node. I did this so every method
+from the CommandHandler class has only 1 argument, needed because of
+the way I defined the HashMap.
+
+#### Player
+
+- stores information about the player for one game
+- the information stored is current mana, deck, hand, hero and player id
+- also used to return cards from hand, get the corresponding row number
+for a specific card based on the player id and the card's name
+- has a method to check if the player has enough mana for an action
 
 
-# Tema POO  - GwentStone
-
-<div align="center"><img src="https://tenor.com/view/witcher3-gif-9340436.gif" width="500px"></div>
-
-#### Assignment Link: [https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema)
+#### Constants
+- as the name suggests, contains different constants used during coding
 
 
-## Skel Structure
+#### Command Handler
 
-* src/
-  * checker/ - checker files
-  * fileio/ - contains classes used to read data from the json files
-  * main/
-      * Main - the Main class runs the checker on your implementation. Add the entry point to your implementation in it. Run Main to test your implementation from the IDE or from command line.
-      * Test - run the main method from Test class with the name of the input file from the command line and the result will be written
-        to the out.txt file. Thus, you can compare this result with ref.
-* input/ - contains the tests in JSON format
-* ref/ - contains all reference output for the tests in JSON format
+- it's the function that does the printing (adds to the output ArrayNode)
+- calls the methods from other classes that implement the wanted functionality
+- checks for any error during the commands
+- it also contains a hashmap that it's used to associate a method(a consumer) to
+every command string. This way, 
+- all methods receive one parameter, the Game handler, that is used to get
+the needed action or the output node
+- implemented using the Singleton pattern
 
-## Tests
+#### Board and Row 
+- the classes manage the cards that were placed on the board (they will are used
+to remove them when they're dead and update their stats constantly)
+- the board was implemented using the Singleton pattern because there is no need
+for more than one board. This implementation needed me to reset the board 
+after every test, otherwise the old cards could've been visible on the board
+even if they didn't exist in the next test.
+### Cards package
 
-1. test01_game_start - 4p
-2. test02_place_card - 5p
-3. test03_place_card_invalid - 5p
-4. test04_attack_card - 5p
-5. test05_attack_card_invalid - 5p
-6. test06_use_card_ability - 5p
-7. test07_use_card_ability_invalid - 5p
-8. test08_attack_hero - 5p
-9. test09_attack_hero_invalid - 5p
-10. test10_use_hero_ability_1 - 4p
-11. test11_use_hero_ability_2 - 4p
-12. test12_use_hero_ability_invalid_1 - 4p
-13. test13_use_hero_ability_invalid_2 - 4p
-14. test14_multiple_games_valid - 5p
-15. test15_multiple_games_invalid - 5p
-16. test16_big_game - 10p
+#### Card
 
+- containts the basic stats, common for all cards
+#### Minion
 
-<div align="center"><img src="https://tenor.com/view/homework-time-gif-24854817.gif" width="500px"></div>
+- contains methods to check if the card is able to attack and to reset its state
+- has a method to set the abilities if the minion should have one
+
+#### Hero
+
+- has a similar method to the one present in the Minion class that sets the 
+Hero Ability
+
+#### Abilities
+The abilities are present in another package. Each ability has a different class
+which extends a different class, either Ability or HeroAbility, based on its type.
+They were implemented in a similar way to the Command pattern, the Ability class
+also containing the caster Minion, but every ability extends an abstract class which
+has a method named useAbility(), the "invoker" being the Hero or the Minion.
+The package is named "abilties" and the useAbility() function has one parameter,
+a row for the hero abilties or a minion for the minion abilities. 
+
+The Skyjack class also contains the caster because we need to make some changes
+to it. That's why the constructor has a parameter for the minion, which will be
+given as "this" when the ability is going to be set for the "Mirage" minion.  
+
+ 

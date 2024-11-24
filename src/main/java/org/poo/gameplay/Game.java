@@ -165,7 +165,7 @@ public final class Game {
     public void executeGames(final Input input) {
         extractDecks(input);
         ArrayList<GameInput> game = input.getGames();
-        for (GameInput g : game) {
+        for (GameInput g : game) { // for every game, execute every command
             startGame(g);
             for (ActionsInput a : g.getActions()) {
                 currentAction = a;

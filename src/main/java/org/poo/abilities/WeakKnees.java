@@ -4,8 +4,8 @@ import org.poo.cards.Minion;
 
 public final class WeakKnees extends Ability {
 
-    public WeakKnees(final Minion m) {
-        super(true, "Weak Knees", m);
+    public WeakKnees() {
+        super(true, "Weak Knees");
     }
 
     /**

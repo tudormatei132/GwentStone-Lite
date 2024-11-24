@@ -4,9 +4,11 @@ import org.poo.cards.Minion;
 
 public final class Skyjack extends Ability {
 
+    private Minion minion;
 
     public Skyjack(final Minion m) {
-        super(true, "Skyjack", m);
+        super(true, "Skyjack");
+        minion = m;
     }
 
     /**
@@ -14,8 +16,8 @@ public final class Skyjack extends Ability {
      * @param target teh target minion
      */
     public void useAbility(final Minion target) {
-        int temp = this.getMinion().getHealth();
-        this.getMinion().setHealth(target.getHealth());
+        int temp = minion.getHealth();
+        this.minion.setHealth(target.getHealth());
         target.setHealth(temp);
     }
 }

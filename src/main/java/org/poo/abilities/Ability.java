@@ -10,9 +10,6 @@ public abstract class Ability {
     @Getter
     @Setter
     private String name;
-    @Getter
-    @Setter
-    private Minion minion;
 
     /**
      * will be used to cast different abilities
@@ -20,10 +17,9 @@ public abstract class Ability {
      */
     public abstract void useAbility(Minion target);
 
-    public Ability(final boolean mustBeCastOnEnemies, final String name, final Minion minion) {
+    public Ability(final boolean mustBeCastOnEnemies, final String name) {
         this.mustBeCastOnEnemies = mustBeCastOnEnemies;
         this.name = name;
-        this.minion = minion;
     }
 
     /**

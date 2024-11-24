@@ -45,7 +45,7 @@ public final class Minion extends Card {
      */
     public void setAbility() {
         if (getName().equals("The Ripper")) {
-            ability = new WeakKnees(this);
+            ability = new WeakKnees();
             return;
         }
 
@@ -55,12 +55,12 @@ public final class Minion extends Card {
         }
 
         if (getName().equals("The Cursed One")) {
-            ability = new Shapeshift(this);
+            ability = new Shapeshift();
             return;
         }
 
         if (getName().equals("Disciple")) {
-            ability = new GodsPlan(this);
+            ability = new GodsPlan();
         }
     }
 

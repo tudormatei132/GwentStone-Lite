@@ -6,8 +6,8 @@ import org.poo.gameplay.Constants;
 public final class GodsPlan extends Ability {
 
 
-    public GodsPlan(final Minion m) {
-        super(false, "God's Plan", m);
+    public GodsPlan() {
+        super(false, "God's Plan");
     }
 
     /**
