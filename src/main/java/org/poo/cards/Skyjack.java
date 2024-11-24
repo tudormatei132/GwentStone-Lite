@@ -1,0 +1,19 @@
+package org.poo.cards;
+
+public final class Skyjack extends Ability {
+
+
+    public Skyjack(final Minion m) {
+        super(true, "Skyjack", m);
+    }
+
+    /**
+     * swaps health between the minion that casted the ability and the targeted one
+     * @param target teh target minion
+     */
+    public void useAbility(final Minion target) {
+        int temp = this.getMinion().getHealth();
+        this.getMinion().setHealth(target.getHealth());
+        target.setHealth(temp);
+    }
+}
